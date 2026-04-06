@@ -6,7 +6,7 @@ export const orders = sqliteTable("orders", {
   /** Unix ms when the row was created */
   createdAt: integer("created_at", { mode: "number" }).notNull(),
   /** Meta inbound message id (dedup) */
-  waMessageId: text("wa_message_id"),
+  waMessageId: text("wa_message_id").unique(),
   /** E.164 sender, e.g. 15551234567 */
   waFrom: text("wa_from").notNull(),
   /** Optional display name from WhatsApp profile when available */
@@ -17,7 +17,7 @@ export const orders = sqliteTable("orders", {
   bodyText: text("body_text").notNull(),
   /** Structured line items JSON (parsed drink + toppings) */
   lineItemsJson: text("line_items_json"),
-  /** received | cancelled — extend as needed */
+  /** received | info | parse_error | outside_window | cancelled */
   status: text("status").notNull().default("received"),
 });
 
