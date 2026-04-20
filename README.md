@@ -1,5 +1,28 @@
 # BearHacks Boba ordering (WhatsApp Cloud API)
 
+> ## ⚠️ Deprecated — do not deploy
+>
+> This Bun + Hono service is no longer the source of truth for BearHacks 2026
+> boba ordering. The WhatsApp Cloud API integration has been retired in favour
+> of an in-portal flow. The new system lives across three places:
+>
+> - **Backend (FastAPI + Supabase Postgres):** `bearhacks-backend`
+>   - Hacker API: `routers/boba.py` → `/boba/menu`, `/boba/windows`, `/boba/orders/me`, `POST/PATCH/DELETE /boba/orders[/{id}]`
+>   - Admin API: `routers/admin_boba.py` → `/admin/boba/windows`, `/admin/boba/orders`, `/admin/boba/orders/prep-summary`, `/admin/boba/orders/pickup-list`, `/admin/boba/orders/export.csv`, `POST /admin/boba/orders/{id}/fulfill`
+>   - Domain: `core/boba/{menu.py,meal_windows.py,formatting.py}` (timezone: `America/Toronto`)
+>   - Migration: `supabase/migrations/*_create_boba_orders.sql`
+> - **Hacker portal (Next.js):** `bearhacks-web/apps/me`
+>   - Always-visible status: `components/boba-status-card.tsx`
+>   - Order page: `app/boba/page.tsx` (TanStack Form + Zod)
+> - **Admin portal (Next.js):** `bearhacks-web/apps/admin`
+>   - Dashboard tile: `app/page.tsx` (super-admin gated)
+>   - Food-team console: `app/boba-orders/page.tsx` (TanStack Table v8)
+>
+> The menu (`src/domain/menu.ts`), meal windows (`src/domain/meal-windows.ts`),
+> and Gong Cha batch text idea were ported into Python equivalents inside
+> `bearhacks-backend/core/boba/`. This repo is kept around only as a reference
+> for the original WhatsApp/SQLite design and **should not be redeployed**.
+
 Bun + Hono + Drizzle (`bun:sqlite`) backend for hackathon boba orders and Gong Cha batch messages.
 
 ## Setup
